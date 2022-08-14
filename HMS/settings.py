@@ -128,4 +128,4 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = ['https://8000-tcostain98-p4bookingwis-p90g5zru7q7.ws-eu60.gitpod.io', 'http://localhost']
+CSRF_TRUSTED_ORIGINS = ['https://8000-tcostain98-p4bookingwis-7hdfirji1vx.ws-eu60.gitpod.io', 'http://localhost']
