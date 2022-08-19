@@ -15,6 +15,7 @@ class BookingList(ListView):
 class RoomDetailView(View):
     def get(self, request, *args, **kwargs):
         category = self.kwargs.get('category', None)
+        form = AvailabilityForm()
         room_list = Room.objects.filter(category=category)
         
         if len(room_list)>0:
@@ -22,14 +23,21 @@ class RoomDetailView(View):
             room_category = dict(room.ROOM_CATEGORIES).get(room.category, None)
             context = {
                 'room_category': room_category,
+                'form': form,
         }
             return render(request, 'room_detail_view.html', context)
         else:
             return HttpResponse('Sorry, This category does not exist')
         
     def post(self, request, *args, **kwargs):
+        category = self.kwargs.get('category', None)
         room_list = Room.objects.filter(category=category)
-        available_rooms=[]
+        form = AvailabilityForm(request.POST)
+
+        if form.is_valid():
+            data = form.cleaned_data
+
+        available_rooms = []
         for room in room_list:
             if check_availability(room, data['check_in'], data['check_out']):
                 available_rooms.append(room)
@@ -45,7 +53,7 @@ class RoomDetailView(View):
             booking.save()
             return HttpResponse(booking)
         else:
-            return HttpResponse('Sorry this category of room is no longer available! Please try another room.')
+            return HttpResponse('All of this category of rooms are booked!! Try another one')
 
 
 class BookingView(FormView):
