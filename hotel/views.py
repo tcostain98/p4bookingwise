@@ -18,13 +18,13 @@ class RoomDetailView(View):
         form = AvailabilityForm()
         room_list = Room.objects.filter(category=category)
         
-        if len(room_list)>0:
+        if len(room_list) > 0:
             room = room_list[0]
             room_category = dict(room.ROOM_CATEGORIES).get(room.category, None)
             context = {
                 'room_category': room_category,
                 'form': form,
-        }
+            }
             return render(request, 'room_detail_view.html', context)
         else:
             return HttpResponse('Sorry, This category does not exist')
@@ -63,7 +63,7 @@ class BookingView(FormView):
     def form_valid(self, form):
         data = form.cleaned_data
         room_list = Room.objects.filter(category=data['room_category'])
-        available_rooms=[]
+        available_rooms = []
         for room in room_list:
             if check_availability(room, data['check_in'], data['check_out']):
                 available_rooms.append(room)
