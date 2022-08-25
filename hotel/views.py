@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from django.views.generic import ListView, FormView, View
+from django.urls import reverse, reverse_lazy
 from .models import Room, Booking
 from .forms import AvailabilityForm
 from hotel.booking_functions.availability import check_availability
@@ -17,7 +18,7 @@ def RoomListView(request):
     
     for room_category in room_categories:
         room = room_categories.get(room_category)
-        room_url = reverse('hotel:RoomDetailView', kwargs={'category': room_categories})
+        room_url = reverse('hotel:RoomDetailView', kwargs={'category': room_category})
         room_list.append((room, room_url))
     context = {
         "room_list": room_list,
